@@ -17,10 +17,6 @@ public class WhiteChapel {
 
         if(vertices[vertex1]==null)
             vertices[vertex1]=new LinkedList<>();
-
-        if (vertices[vertex2]==null)
-            vertices[vertex2]=new LinkedList<>();
-
         //Adds a vertex in the list of adjecent vertices
         vertices[vertex1].add(vertex2);
     }
