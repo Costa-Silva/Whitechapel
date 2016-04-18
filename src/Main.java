@@ -20,7 +20,6 @@ public class Main {
                     }
                 }
             }
-            System.out.print("\n");
             int numClues = Integer.parseInt(in.readLine());
             for (int i=0;i<numClues;i++){
                 String[] clue = in.readLine().split("\\s");
