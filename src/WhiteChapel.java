@@ -24,4 +24,9 @@ public class WhiteChapel {
     public void addHideoutclue(int crimeLoc , int hideoutDistance){
         hideoutDistances.put(crimeLoc,hideoutDistance);
     }
+
+    public int[] problem(){
+
+        return null;
+    }
 }
