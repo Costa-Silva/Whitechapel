@@ -2,36 +2,30 @@
 /**
  * Created by paulo on 18/04/2016.
  */
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class WhiteChapel {
-    private Set<Integer>[]vertices;
-    private long[] hideoutDistances;
+     List<Integer>[]vertices;
+     Map<Integer,Integer> hideoutDistances;
 
     public WhiteChapel(int numVertices){
-        vertices = new TreeSet[numVertices];
-
+        vertices = new LinkedList[numVertices];
+        hideoutDistances=new HashMap<>();
     }
 
     public void addEdges(int vertex1, int vertex2){
 
         if(vertices[vertex1]==null)
-            vertices[vertex1]=new TreeSet<>();
+            vertices[vertex1]=new LinkedList<>();
 
         if (vertices[vertex2]==null)
-            vertices[vertex2]=new TreeSet<>();
+            vertices[vertex2]=new LinkedList<>();
 
         //Adds a vertex in the list of adjecent vertices
         vertices[vertex1].add(vertex2);
-        vertices[vertex2].add(vertex1);
     }
 
-    public void initHideout(int numDistancecClue){
-        hideoutDistances=new long[numDistancecClue];
-    }
-
-    public void addHideoutclue(int crimeLoc , long hideoutDistance){
-        hideoutDistances[crimeLoc] = hideoutDistance;
+    public void addHideoutclue(int crimeLoc , int hideoutDistance){
+        hideoutDistances.put(crimeLoc,hideoutDistance);
     }
 }
