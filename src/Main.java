@@ -21,6 +21,7 @@ public class Main {
                 }
             }
             int numClues = Integer.parseInt(in.readLine());
+            whiteChapel.initHideout(numClues);
             for (int i=0;i<numClues;i++){
                 String[] clue = in.readLine().split("\\s");
                 whiteChapel.addHideoutclue(Integer.parseInt(clue[0])-1,Integer.parseInt(clue[1])-1);

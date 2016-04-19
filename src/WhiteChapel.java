@@ -5,31 +5,65 @@
 import java.util.*;
 
 public class WhiteChapel {
-     List<Integer>[]vertices;
-
-
-
-     Map<Integer,Integer> hideoutDistances;
+     List<Integer>[]graph;
+     int[] hideoutDistances;
 
     public WhiteChapel(int numVertices){
-        vertices = new LinkedList[numVertices];
-        hideoutDistances=new HashMap<>();
+        graph = new LinkedList[numVertices];
     }
 
     public void addEdges(int vertex1, int vertex2){
 
-        if(vertices[vertex1]==null)
-            vertices[vertex1]=new LinkedList<>();
+        if(graph[vertex1]==null)
+            graph[vertex1]=new LinkedList<>();
         //Adds a vertex in the list of adjecent vertices
-        vertices[vertex1].add(vertex2);
+        graph[vertex1].add(vertex2);
+    }
+
+    public void initHideout(int numClues){
+        hideoutDistances=new int[numClues];
     }
 
     public void addHideoutclue(int crimeLoc , int hideoutDistance){
-        hideoutDistances.put(crimeLoc,hideoutDistance);
+        hideoutDistances[crimeLoc] = hideoutDistance;
     }
 
     public int[] problem(){
 
+        boolean [] found = new boolean[graph.length];
+        boolean [] intersection = new boolean[graph.length];
+
+        for(int i = 0;i<hideoutDistances.length;i++){
+            if(!found[i]){
+                bfsExplore(found,intersection,i);
+            }
+        }
+
         return null;
+    }
+
+    private void bfsExplore(boolean[] found, boolean[] intersection, int root) {
+        Queue<Integer> waiting = new LinkedList<>();
+        int roads = 0;
+        waiting.add(root);
+        found[root]=true;
+
+        do{
+                int node = waiting.remove();
+                roads++;
+                for(Integer vertex : graph[node]){
+                    if(!found[vertex]){
+
+                        if(roads==hideoutDistances[root]){
+
+                        }
+
+                        waiting.add(vertex);
+                        found[vertex]=true;
+
+                    }
+                }
+        }while(!waiting.isEmpty());
+
     }
 }
