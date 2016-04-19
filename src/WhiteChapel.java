@@ -6,7 +6,7 @@ import java.util.*;
 
 public class WhiteChapel {
      List<Integer>[]graph;
-     int[] hideoutDistances;
+     Clue[] hideoutDistances;
 
     public WhiteChapel(int numVertices){
         graph = new LinkedList[numVertices];
@@ -21,49 +21,63 @@ public class WhiteChapel {
     }
 
     public void initHideout(int numClues){
-        hideoutDistances=new int[numClues];
+        hideoutDistances=new Clue[numClues];
     }
 
-    public void addHideoutclue(int crimeLoc , int hideoutDistance){
-        hideoutDistances[crimeLoc] = hideoutDistance;
+    public void addHideoutclue(int i , int crimeLoc , int hideoutDistance){
+        hideoutDistances[i] = new Clue(crimeLoc,hideoutDistance);
     }
 
-    public int[] problem(){
+    public List problem(){
 
         boolean [] found = new boolean[graph.length];
-        boolean [] intersection = new boolean[graph.length];
-
+        boolean [][] intersection = new boolean[hideoutDistances.length][graph.length];
+        List<Integer> list=new LinkedList<>();
         for(int i = 0;i<hideoutDistances.length;i++){
-            if(!found[i]){
-                bfsExplore(found,intersection,i);
+            if((list=bfsExplore(found,intersection,hideoutDistances[i],i))==null){
+                return null;
             }
         }
 
-        return null;
+        return list;
     }
 
-    private void bfsExplore(boolean[] found, boolean[] intersection, int root) {
+    private List<Integer> bfsExplore(boolean[] found, boolean[][] intersection, Clue root,int matrixLine) {
         Queue<Integer> waiting = new LinkedList<>();
-        int roads = 0;
-        waiting.add(root);
-        found[root]=true;
-
+        int roads = -1;
+        List<Integer> list=new LinkedList<>();
+        waiting.add(root.getCrimeLoc());
+        found[root.getCrimeLoc()]=true;
+        boolean stop=false;
         do{
                 int node = waiting.remove();
                 roads++;
+                int numberOfAdj = graph[node].size();
                 for(Integer vertex : graph[node]){
                     if(!found[vertex]){
 
-                        if(roads==hideoutDistances[root]){
+                        if(roads==root.getRoadClue()){
+                            if(matrixLine>0){
+                                if(!intersection[matrixLine-1][vertex]){
+                                    numberOfAdj--;
 
+                                    if (numberOfAdj==0) return null;
+                                }
+                                else {
+                                    intersection[matrixLine][vertex]=intersection[matrixLine-1][vertex];
+                                    list.add(vertex);
+                                }
+                            }else intersection[matrixLine][vertex]=true;
+
+                            stop=true;
                         }
 
                         waiting.add(vertex);
                         found[vertex]=true;
-
                     }
                 }
-        }while(!waiting.isEmpty());
 
+        }while(!waiting.isEmpty() && !stop);
+        return list;
     }
 }
