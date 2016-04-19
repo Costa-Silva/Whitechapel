@@ -44,13 +44,39 @@ public class WhiteChapel {
 
     private List<Integer> bfsExplore(boolean[] found, boolean[][] intersection, Clue root,int matrixLine) {
         Queue<Integer> waiting = new LinkedList<>();
+        Queue<Integer> adjacentNodes = new LinkedList<>();
         int roads = -1;
         List<Integer> list=new LinkedList<>();
         waiting.add(root.getCrimeLoc());
         found[root.getCrimeLoc()]=true;
         boolean stop=false;
         do{
-                int node = waiting.remove();
+
+
+
+                for (int i=0; i<root.getRoadClue();i++){
+
+
+                    while(!waiting.isEmpty()){
+
+
+                        for (int node :graph[waiting.remove()]) {
+
+                            if(!found[node]){
+                                found[node]=true;
+                                adjacentNodes.add(node);
+
+                            }
+                        }
+                    }
+                    waiting.addAll(adjacentNodes);
+                    adjacentNodes.clear();
+
+                }
+
+
+
+
                 roads++;
                 int numberOfAdj = graph[node].size();
                 for(Integer vertex : graph[node]){
