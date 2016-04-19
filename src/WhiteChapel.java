@@ -6,6 +6,9 @@ import java.util.*;
 
 public class WhiteChapel {
      List<Integer>[]vertices;
+
+
+
      Map<Integer,Integer> hideoutDistances;
 
     public WhiteChapel(int numVertices){
