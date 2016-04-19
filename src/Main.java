@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -20,7 +21,6 @@ public class Main {
                         whiteChapel.addEdges(vertexOut,vertexIn);
                     }
                 }
-                System.out.print(whiteChapel.graph[vertexOut].toString());
             }
             int numClues = Integer.parseInt(in.readLine());
             whiteChapel.initHideout(numClues);
@@ -33,8 +33,9 @@ public class Main {
             if(list==null){
                 System.out.println("NO SOLUTION");
             }else{
+                Collections.sort(list);
                 for(Integer i : list){
-                    System.out.print(i+" ");
+                    System.out.print(i+1+" ");
                 }
             }
         } catch (IOException e) {

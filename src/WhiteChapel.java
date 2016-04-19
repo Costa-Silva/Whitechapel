@@ -30,11 +30,11 @@ public class WhiteChapel {
 
     public List problem(){
 
-        boolean [] found = new boolean[graph.length];
         boolean [][] intersection = new boolean[hideoutDistances.length][graph.length];
         List<Integer> list=new LinkedList<>();
         for(int i = 0;i<hideoutDistances.length;i++){
-            if((bfsExplore(found,intersection,hideoutDistances[i],i).size()==0)){
+            list=bfsExplore(intersection,hideoutDistances[i],i);
+            if(list.size()==0){
                 return null;
             }
         }
@@ -42,15 +42,17 @@ public class WhiteChapel {
         return list;
     }
 
-    private List<Integer> bfsExplore(boolean[] found, boolean[][] intersection, Clue root,int matrixLine) {
+    private List<Integer> bfsExplore( boolean[][] intersection, Clue root,int matrixLine) {
         Queue<Integer> waiting = new LinkedList<>();
         Queue<Integer> adjacentNodes = new LinkedList<>();
         List<Integer> list=new LinkedList<>();
+        boolean [] found = new boolean[graph.length];
+
         waiting.add(root.getCrimeLoc());
         found[root.getCrimeLoc()]=true;
 
 
-            for (int i = 0; i < root.getRoadClue(); i++) {
+            for (int i = 0; i <= root.getRoadClue(); i++) {
 
 
                 while (!waiting.isEmpty()) {
@@ -58,14 +60,16 @@ public class WhiteChapel {
                     for (int node : graph[waiting.remove()]) {
 
                         if (!found[node]) {
-                            if (i == root.getRoadClue() - 1) {
+                            if (i == root.getRoadClue()) {
                                 if (matrixLine > 0) {
                                     if (intersection[matrixLine - 1][node]) {
                                         intersection[matrixLine][node] = intersection[matrixLine - 1][node];
                                         list.add(node);
                                     }
 
-                                } else intersection[matrixLine][node] = true;
+                                } else {intersection[matrixLine][node] = true;
+                                    list.add(node);
+                                }
 
                             }
                             found[node] = true;
