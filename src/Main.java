@@ -1,3 +1,5 @@
+import package1.WhiteChapel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,15 +30,19 @@ public class Main {
                 String[] clue = in.readLine().split("\\s");
                 whiteChapel.addHideoutclue(i,Integer.parseInt(clue[0])-1,Integer.parseInt(clue[1])-1);
             }
-
             List<Integer> list = whiteChapel.problem();
             if(list==null){
                 System.out.println("NO SOLUTION");
             }else{
                 Collections.sort(list);
-                for(Integer i : list){
-                    System.out.print(i+1+" ");
+
+                for(int i=0;i<list.size();i++){
+                    if(i==0){
+                        System.out.print(list.get(i)+1);
+                    }
+                    else System.out.print(" " + (list.get(i)+1));
                 }
+                System.out.println("");
             }
         } catch (IOException e) {
             e.printStackTrace();
