@@ -5,10 +5,12 @@ import java.util.*;
 public class WhiteChapel {
      private List<Integer>[]graph;
      private Clue[] hideoutDistances;
+     private boolean[][] intersection;
 
     @SuppressWarnings("unchecked")
     public WhiteChapel(int numVertices){
         graph = new List[numVertices];
+
     }
 
     public void addEdges(int vertex1, int vertex2){
@@ -21,31 +23,28 @@ public class WhiteChapel {
 
     public void initHideout(int numClues){
         hideoutDistances=new Clue[numClues];
+        intersection = new boolean[hideoutDistances.length][graph.length];
     }
 
     public void addHideoutclue(int i , int crimeLoc , int hideoutDistance){
         hideoutDistances[i] = new Clue(crimeLoc,hideoutDistance);
     }
 
-    public List<Integer> problem(){
-
-        boolean [][] intersection = new boolean[hideoutDistances.length][graph.length];
-        List<Integer> list=new LinkedList<>();
+    public boolean[] problem(){
         for(int i = 0;i<hideoutDistances.length;i++){
-            list=bfsExplore(intersection,hideoutDistances[i],i);
-            if(list.size()==0){
+            if(!bfsExplore(hideoutDistances[i],i)){
                 return null;
             }
         }
-
-        return list;
+        return intersection[hideoutDistances.length-1];
     }
 
-    private List<Integer> bfsExplore( boolean[][] intersection, Clue root,int matrixLine) {
+    private boolean bfsExplore( Clue root,int matrixLine) {
         Queue<Integer> waiting = new LinkedList<>();
         Queue<Integer> adjacentNodes = new LinkedList<>();
-        List<Integer> list=new LinkedList<>();
+
         boolean [] found = new boolean[graph.length];
+        boolean hasIntersection = false;
 
         waiting.add(root.getCrimeLoc());
         found[root.getCrimeLoc()]=true;
@@ -63,11 +62,11 @@ public class WhiteChapel {
                                 if (matrixLine > 0) {
                                     if (intersection[matrixLine - 1][node]) {
                                         intersection[matrixLine][node] = intersection[matrixLine - 1][node];
-                                        list.add(node);
+                                        hasIntersection=true;
                                     }
 
                                 } else {intersection[matrixLine][node] = true;
-                                    list.add(node);
+                                    hasIntersection=true;
                                 }
                             }
                             found[node] = true;
@@ -79,6 +78,6 @@ public class WhiteChapel {
                 waiting.addAll(adjacentNodes);
                 adjacentNodes.clear();
             }
-            return list;
+            return hasIntersection;
     }
 }
