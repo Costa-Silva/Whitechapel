@@ -75,7 +75,7 @@ public class WhiteChapel {
 
                     }
                 }
-                waiting.addAll(adjacentNodes);
+                waiting= new LinkedList<>(adjacentNodes);
                 adjacentNodes.clear();
             }
             return hasIntersection;
