@@ -34,11 +34,13 @@ public class Main {
             if(output==null){
                 System.out.println("NO SOLUTION");
             }else{
+                boolean firstPrint =true;
                 for(int i=0;i<output.length;i++){
                     if(output[i]) {
-                        if (i == output.length-1) {
+                        if (firstPrint) {
                             System.out.print(i + 1);
-                        } else System.out.print((i + 1) +" ");
+                            firstPrint = false;
+                        } else System.out.print(" "+(i +1));
                     }
                 }
                 System.out.println("");
