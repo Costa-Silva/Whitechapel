@@ -42,7 +42,7 @@ public class WhiteChapel {
     private boolean bfsExplore( Clue root,int matrixLine) {
         Queue<Integer> waiting = new LinkedList<>();
         Queue<Integer> adjacentNodes = new LinkedList<>();
-        //
+
         boolean [] found = new boolean[graph.length];
         boolean hasIntersection = false;
 
